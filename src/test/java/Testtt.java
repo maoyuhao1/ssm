@@ -53,7 +53,14 @@ public class Testtt {
     }
 
     @Test
-    public void test04(){
+    public void UUIDtest04(){
+
         System.out.println(UUIDUtil.getUUID());
+    }
+
+
+    @Test
+    public void test05(){
+        System.out.println("  ".trim().equals("      ".trim()));
     }
 }

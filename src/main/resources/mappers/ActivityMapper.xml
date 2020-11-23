@@ -30,4 +30,17 @@
     on a.owner = u.id
     where a.id = #{activityId}
     </select>
+
+
+    <resultMap id="queryActivity" type="activity">
+        <result property="owner" column="uname"></result>
+    </resultMap>
+
+    <select id="queryActivityExculdeNow" resultMap="queryActivity">
+    select a.*,u.name uname from tbl_activity a left join tbl_user u
+    on a.owner = u.id
+    where a.id not in (select activityId from tbl_clue_activity_relation where clueId = #{clueId})
+    and a.name like
+      '%' #{activityName} '%'
+    </select>
 </mapper>

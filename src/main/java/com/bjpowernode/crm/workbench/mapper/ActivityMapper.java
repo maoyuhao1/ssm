@@ -23,4 +23,6 @@ public interface ActivityMapper extends Mapper<Activity> {
     List<Map<String,String>> queryList(ActivityQureyVo activityQureyVo);
 
     List<Map<String, String>> queryActivityById(@Param("activityId") String activityId);
+
+    List<Activity> queryActivityExculdeNow(@Param("clueId") String clueId, @Param("activityName") String activityName);
 }

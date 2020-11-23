@@ -1,16 +1,23 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
 <meta charset="UTF-8">
 
-<link href="../../jquery/bootstrap_3.3.0/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
-<link href="../../jquery/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css" type="text/css" rel="stylesheet" />
+<link href="/crm/jquery/bootstrap_3.3.0/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+<link href="/crm/jquery/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css" type="text/css" rel="stylesheet" />
 
-<script type="text/javascript" src="../../jquery/jquery-1.11.1-min.js"></script>
-<script type="text/javascript" src="../../jquery/bootstrap_3.3.0/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="../../jquery/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.js"></script>
-<script type="text/javascript" src="../../jquery/bootstrap-datetimepicker-master/locale/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript" src="/crm/jquery/jquery-1.11.1-min.js"></script>
+<script type="text/javascript" src="/crm/jquery/bootstrap_3.3.0/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/crm/jquery/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="/crm/jquery/bootstrap-datetimepicker-master/locale/bootstrap-datetimepicker.zh-CN.js"></script>
 
+
+	<%--导入分页插件--%>
+	<link href="/crm/jquery/bs_pagination/jquery.bs_pagination.min.css" type="text/css" rel="stylesheet" />
+	<script type="text/javascript" src="/crm/jquery/bs_pagination/en.js"></script>
+	<script type="text/javascript" src="/crm/jquery/bs_pagination/jquery.bs_pagination.min.js"></script>
+	<script type="text/javascript"></script>
 <script type="text/javascript">
 
 	$(function(){
@@ -55,12 +62,6 @@
 							<label for="create-call" class="col-sm-2 control-label">称呼</label>
 							<div class="col-sm-10" style="width: 300px;">
 								<select class="form-control" id="create-call">
-								  <option></option>
-								  <option>先生</option>
-								  <option>夫人</option>
-								  <option>女士</option>
-								  <option>博士</option>
-								  <option>教授</option>
 								</select>
 							</div>
 							<label for="create-surname" class="col-sm-2 control-label">姓名<span style="font-size: 15px; color: red;">*</span></label>
@@ -99,14 +100,6 @@
 							<label for="create-status" class="col-sm-2 control-label">线索状态</label>
 							<div class="col-sm-10" style="width: 300px;">
 								<select class="form-control" id="create-status">
-								  <option></option>
-								  <option>试图联系</option>
-								  <option>将来联系</option>
-								  <option>已联系</option>
-								  <option>虚假线索</option>
-								  <option>丢失线索</option>
-								  <option>未联系</option>
-								  <option>需要条件</option>
 								</select>
 							</div>
 						</div>
@@ -378,22 +371,8 @@
 				  <div class="form-group">
 				    <div class="input-group">
 				      <div class="input-group-addon">线索来源</div>
-					  <select class="form-control">
-					  	  <option></option>
-					  	  <option>广告</option>
-						  <option>推销电话</option>
-						  <option>员工介绍</option>
-						  <option>外部介绍</option>
-						  <option>在线商场</option>
-						  <option>合作伙伴</option>
-						  <option>公开媒介</option>
-						  <option>销售邮件</option>
-						  <option>合作伙伴研讨会</option>
-						  <option>内部研讨会</option>
-						  <option>交易会</option>
-						  <option>web下载</option>
-						  <option>web调研</option>
-						  <option>聊天</option>
+					  <select class="form-control" id="source">
+						  <option>请选择线索来源</option>
 					  </select>
 				    </div>
 				  </div>
@@ -419,26 +398,19 @@
 				  <div class="form-group">
 				    <div class="input-group">
 				      <div class="input-group-addon">线索状态</div>
-					  <select class="form-control">
-					  	<option></option>
-					  	<option>试图联系</option>
-					  	<option>将来联系</option>
-					  	<option>已联系</option>
-					  	<option>虚假线索</option>
-					  	<option>丢失线索</option>
-					  	<option>未联系</option>
-					  	<option>需要条件</option>
+					  <select class="form-control" id="status">
+						  <option>请选择线索状态</option>
 					  </select>
 				    </div>
 				  </div>
 
-				  <button type="submit" class="btn btn-default">查询</button>
+				  <button id="queryList" class="btn btn-default">查询</button>
 				  
 				</form>
 			</div>
 			<div class="btn-toolbar" role="toolbar" style="background-color: #F7F7F7; height: 50px; position: relative;top: 40px;">
 				<div class="btn-group" style="position: relative; top: 18%;">
-				  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createClueModal"><span class="glyphicon glyphicon-plus"></span> 创建</button>
+				  <button type="button"  id="createClueBtn" class="btn btn-primary" data-toggle="modal" data-target="#createClueModal"><span class="glyphicon glyphicon-plus"></span> 创建</button>
 				  <button type="button" class="btn btn-default" data-toggle="modal" data-target="#editClueModal"><span class="glyphicon glyphicon-pencil"></span> 修改</button>
 				  <button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span> 删除</button>
 				</div>
@@ -459,64 +431,14 @@
 							<td>线索状态</td>
 						</tr>
 					</thead>
-					<tbody>
-						<tr>
-							<td><input type="checkbox" /></td>
-							<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='detail.jsp';">李四先生</a></td>
-							<td>动力节点</td>
-							<td>010-84846003</td>
-							<td>12345678901</td>
-							<td>广告</td>
-							<td>zhangsan</td>
-							<td>已联系</td>
-						</tr>
-                        <tr class="active">
-                            <td><input type="checkbox" /></td>
-                            <td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='detail.jsp';">李四先生</a></td>
-                            <td>动力节点</td>
-                            <td>010-84846003</td>
-                            <td>12345678901</td>
-                            <td>广告</td>
-                            <td>zhangsan</td>
-                            <td>已联系</td>
-                        </tr>
+					<tbody id="ClueBody">
+
 					</tbody>
 				</table>
 			</div>
 			
 			<div style="height: 50px; position: relative;top: 60px;">
-				<div>
-					<button type="button" class="btn btn-default" style="cursor: default;">共<b>50</b>条记录</button>
-				</div>
-				<div class="btn-group" style="position: relative;top: -34px; left: 110px;">
-					<button type="button" class="btn btn-default" style="cursor: default;">显示</button>
-					<div class="btn-group">
-						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-							10
-							<span class="caret"></span>
-						</button>
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="#">20</a></li>
-							<li><a href="#">30</a></li>
-						</ul>
-					</div>
-					<button type="button" class="btn btn-default" style="cursor: default;">条/页</button>
-				</div>
-				<div style="position: relative;top: -88px; left: 285px;">
-					<nav>
-						<ul class="pagination">
-							<li class="disabled"><a href="#">首页</a></li>
-							<li class="disabled"><a href="#">上一页</a></li>
-							<li class="active"><a href="#">1</a></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">4</a></li>
-							<li><a href="#">5</a></li>
-							<li><a href="#">下一页</a></li>
-							<li class="disabled"><a href="#">末页</a></li>
-						</ul>
-					</nav>
-				</div>
+				<div id="cluePage"></div>
 			</div>
 			
 		</div>
@@ -524,3 +446,136 @@
 	</div>
 </body>
 </html>
+<script>
+	$.ajax({
+		url : '/crm/dictionaryCache',
+		type : 'get',
+		dataType : 'json',
+		success : function(data){
+			console.log(data)
+			//先遍历所有的字典类型
+			for(var i = 0 ; i < data.length; i++){
+				var dictionaryList = data[i].dictionaryValues;
+				for(var j = 0; j < dictionaryList.length; j++){
+					var dictionaryValue = dictionaryList[j];
+					if("clueState" == data[i].code){
+						$('#status')
+								.append("<option value="+dictionaryValue.value+">"+dictionaryValue.text+"</option>");
+					}
+					if("source" == data[i].code){
+						$('#source')
+								.append("<option value="+dictionaryValue.value+">"+dictionaryValue.text+"</option>");
+					}
+				}
+			}
+		}
+
+	});
+
+	$('#queryList').click(function () {
+		pageList(1,2)
+	})
+
+	pageList(1,2);
+
+	function pageList(page,pageSize) {
+		$('#ClueBody').html("")
+		$.ajax({
+			url: '/crm/workbench/clue/queryList',
+			data:{
+				'page':page,
+				'pageSize':pageSize,
+			},
+			type: 'get',
+			dataType: 'json',
+			success: function (data) {
+				var dataList = data.pageInfo.list;
+				for (var i = 0; i < dataList.length; i++) {
+					var list = dataList[i]
+					console.log(list)
+					$('#ClueBody').append("<tr>\n" +
+							"\t\t\t\t\t\t\t<td><input type=\"checkbox\" /></td>\n" +
+							"\t\t\t\t\t\t\t<td><a style=\"text-decoration: none; cursor: pointer;\" href=/crm/workbench/clue/queryClueDetailById?id="+list.id+">"+list.fullname+"</a></td>\n" +
+							"\t\t\t\t\t\t\t<td>"+list.company+"</td>\n" +
+							"\t\t\t\t\t\t\t<td>"+list.phone+"</td>\n" +
+							"\t\t\t\t\t\t\t<td>"+list.mphone+"</td>\n" +
+							"\t\t\t\t\t\t\t<td>"+list.source+"</td>\n" +
+							"\t\t\t\t\t\t\t<td>"+list.owner+"</td>\n" +
+							"\t\t\t\t\t\t\t<td>"+list.state+"</td>\n" +
+							"\t\t\t\t\t\t</tr>");
+				}
+
+				/*将分页信息传入*/
+				$("#cluePage").bs_pagination({
+					currentPage: data.page, // 页码
+					rowsPerPage: data.pageSize, // 每页显示的记录条数
+					maxRowsPerPage: 20, // 每页最多显示的记录条数
+					totalPages: data.totalPages, // 总页数
+					totalRows: data.totalRows, // 总记录条数
+					visiblePageLinks: 3, // 显示几个卡片
+					showGoToPage: true,
+					showRowsPerPage: true,
+					showRowsInfo: true,
+					showRowsDefaultInfo: true,
+					//回调函数
+					onChangePage: function (event, obj) {
+						pageList(obj.currentPage, obj.rowsPerPage);
+					}
+				})
+			}
+		})
+	}
+
+	$('#createClueBtn').click(function () {
+		//异步查询所有者信息
+		//打开新建市场活动模态窗查询所有用户
+		document.getElementById('create-clueOwner').options.length = 0;
+		document.getElementById('create-call').options.length = 0;
+		document.getElementById('create-status').options.length = 0;
+		document.getElementById('create-source').options.length = 0;
+		$.ajax({
+			url : '/crm/workbench/activity/queryAllUsers',
+			type : 'get',
+			dataType : 'json',
+			success : function(data){
+				for(var i = 0 ; i < data.length;i++){
+					$('#create-clueOwner')
+							.append("<option value="+data[i].id+">"+data[i].name+"</option>");
+				}
+			}
+		});
+		//异步查询字典数据
+		$.ajax({
+			url : '/crm/dictionaryCache',
+			type : 'get',
+			dataType : 'json',
+			success : function(data){
+				//先遍历所有的字典类型
+				for(var i = 0 ; i < data.length; i++){
+					var dictionaryList = data[i].dictionaryValues;
+					for(var j = 0; j < dictionaryList.length; j++){
+						var dictionaryValue = dictionaryList[j];
+						if("appellation" == data[i].code){
+							$('#create-call')
+									.append("<option value="+dictionaryValue.value+">"+dictionaryValue.text+"</option>");
+						}
+						if("clueState" == data[i].code){
+							$('#create-status')
+									.append("<option value="+dictionaryValue.value+">"+dictionaryValue.text+"</option>");
+						}
+						if("source" == data[i].code){
+							$('#create-source')
+									.append("<option value="+dictionaryValue.value+">"+dictionaryValue.text+"</option>");
+						}
+					}
+				}
+			}
+
+		});
+
+	});
+
+
+
+
+</script>
